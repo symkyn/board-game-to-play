@@ -7,7 +7,7 @@ class AverageVote extends Component {
         super(props)
 
         this.state={
-            index: props.index,
+            index: this.props.index,
             averageVotes:0, 
             games: []
         }

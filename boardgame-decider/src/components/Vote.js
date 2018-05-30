@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Vote.css';
+import axios from 'axios';
 
 class Vote extends Component {
     constructor(props){
@@ -7,7 +8,7 @@ class Vote extends Component {
 
         this.state={
             vote: 0,
-            index: props.index
+            index: this.props.index
         }
     }
 
@@ -33,8 +34,14 @@ class Vote extends Component {
 
     submitChange(e) {
         e.preventDefault();
+        const gameIndex = this.state.idex;
+        const newVote = this.state.vote;
         console.log(this.state.vote)
         console.log(this.state.index)
+        axios.patch(`http://localhost3002:${gameIndex}`, newVote)
+            .then(response => console.log(response))
+            .catch(err => console.warn(err))
+
         this.setState({
             vote: 0
         })

@@ -46,6 +46,13 @@ app.delete('/games:id', (req, res) => {
     res.send(returnGames);
 });
 
+app.patch('/games:id'), (req, res) => {
+    const { id } = req.params;
+    const newVote = req.body;
+    games[id][voteArray].push(newVote);
+    res.send(games[id][voteArray])
+}
+
 app.listen(3002, () => {
     console.log('Server listening at port localhost:3002');
 });

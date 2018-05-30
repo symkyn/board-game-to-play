@@ -1,11 +1,12 @@
 .App {
   text-align: left;
+  background-color: rgb(145, 103, 140);
 }
 
 .games-list {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, 300px);
+  grid-template-columns: repeat(2, 400px);
   grid-gap: 10px;
   justify-content: center;
 }
