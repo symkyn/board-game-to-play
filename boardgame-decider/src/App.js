@@ -8,7 +8,8 @@ import Header from './components/Header';
 class App extends Component {
 
   state={
-    games: []
+    games: [],
+    makeNewGame: false
   }
 
   componentWillMount() {
@@ -49,6 +50,24 @@ class App extends Component {
         <ul className='games-list'>
           {gamesList}
         </ul>
+
+        {
+          (!this.state.makeNewGame) &&
+          <span className='add-game-span'>
+            <button 
+                onClick={() => this.makeNewGame()}> 
+                Add New Game
+              </button>
+          </span>
+        }
+
+        {
+          (this.state.makeNewGame) &&
+          <span className='add-game-span'>
+            
+          </span>
+
+        }
       </div>
       
     );
@@ -63,6 +82,13 @@ class App extends Component {
       ))
       .catch(err => console.log(err));
   }
+
+  makeNewGame() {
+    this.setState({
+      makeNewGame: true
+    })
+  }
+
 }
 
 export default App;

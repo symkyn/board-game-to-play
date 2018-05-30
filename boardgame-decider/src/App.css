@@ -4,10 +4,16 @@
 }
 
 .games-list {
-  margin: 0;
+  margin: 5px;
   display: grid;
   grid-template-columns: repeat(2, 400px);
   grid-gap: 10px;
   justify-content: center;
 }
 
+.add-game-span {
+  margin: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+}
