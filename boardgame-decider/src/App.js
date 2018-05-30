@@ -37,7 +37,7 @@ class App extends Component {
           designer={c.designer}
           removeItem={e => {e.stopPropagation(); this.deleteGame(i)}}
           index={i}
-          votes={c.voteArray}
+          voteArray={c.voteArray}
           key={`game-${i}`}
           />
     ))

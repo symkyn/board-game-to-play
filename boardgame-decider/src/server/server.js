@@ -50,8 +50,3 @@ app.listen(3002, () => {
     console.log('Server listening at port localhost:3002');
 });
 
-const findAverageVote = (arr) => {
-    const totalVotes = arr.length;
-    const sum = arr.reduce((a,b) => (a+b));
-    return sum / totalVotes;
-}
