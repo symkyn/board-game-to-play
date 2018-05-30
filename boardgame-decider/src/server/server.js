@@ -12,7 +12,9 @@ const boardGames = [
         maxPlayTime: 120,
         owner: 'symkyn',
         plays: 20,
-        designer: 'Martin Walace'
+        designer: 'Martin Walace',
+        voteArray: [2,3],
+        averageVote: 0
     },
     {
         title: 'Lignum',
@@ -22,7 +24,9 @@ const boardGames = [
         maxPlayTime: 120,
         owner: 'symkyn',
         plays: 0,
-        designer: 'Alexander Huemer'
+        designer: 'Alexander Huemer',
+        voteArray: [1,7],
+        averageVote: 0
     }
 ]
 
@@ -45,3 +49,9 @@ app.delete('/games:id', (req, res) => {
 app.listen(3002, () => {
     console.log('Server listening at port localhost:3002');
 });
+
+const findAverageVote = (arr) => {
+    const totalVotes = arr.length;
+    const sum = arr.reduce((a,b) => (a+b));
+    return sum / totalVotes;
+}
