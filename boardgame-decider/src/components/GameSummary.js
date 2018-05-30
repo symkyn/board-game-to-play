@@ -1,7 +1,7 @@
 import React from 'react';  
 import './GameSummary.css';
 
-const GameSummary = ({title, minPC, maxPC, minPT, maxPT, owner, plays, designer}) => (
+const GameSummary = ({title, minPC, maxPC, minPT, maxPT, owner, plays, designer, removeItem}) => (
     <li className='game-summary'>
         <h3>{title}</h3>
         <ul>
@@ -13,7 +13,10 @@ const GameSummary = ({title, minPC, maxPC, minPT, maxPT, owner, plays, designer}
         <div className='bottom-div'>
         <button className='edit-button'> edit </button>
         <div className='owner-info'>Owner: {owner} || Plays: {plays}</div>
-        <button className='delete-button'> delete </button>
+        <button 
+                className='delete-button'
+                onClick={removeItem}
+            > delete </button>
         </div>
     </li>
 )

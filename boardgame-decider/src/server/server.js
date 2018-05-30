@@ -36,6 +36,11 @@ app.get('/games', (req, res) => {
 
 });
 
+app.delete('/games:id', (req, res) => {
+    const { id } = req.params;
+    const returnGames = boardGames.splice(id,1);
+    res.send(returnGames);
+});
 
 app.listen(3002, () => {
     console.log('Server listening at port localhost:3002');

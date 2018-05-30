@@ -34,6 +34,7 @@ class App extends Component {
           owner={c.owner}
           plays={c.plays}
           designer={c.designer}
+          removeItem={e => {e.stopPropagation(); this.deleteGame(i)}}
           key={`game-${i}`}
           />
     ))
@@ -44,12 +45,22 @@ class App extends Component {
             Board Games!
         </header>
         <form></form>
-        <ul>
+        <ul className='games-list'>
           {gamesList}
         </ul>
       </div>
       
     );
+  }
+
+  deleteGame(i) {
+    axios.delete(`http://localhost:3002/games` + i)
+      .then(results => (
+        this.setState({
+          games: results.data
+        })
+      ))
+      .catch(err => console.log(err));
   }
 }
 
