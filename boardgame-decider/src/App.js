@@ -1,19 +1,54 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 
+import GameSummary from './components/GameSummary'
+
 class App extends Component {
+
+  state={
+    games: []
+  }
+
+  componentWillMount() {
+    axios.get('http://localhost:3002/games')
+      .then(response => {
+        this.setState({
+          games: [
+            ...response.data,
+          ],
+        })
+      })
+      .catch(err => console.warn(err));
+  
+    }
+
   render() {
+    const gamesList = this.state.games.map((c,i) => (
+      <GameSummary 
+          title={c.title}
+          minPC={c.minPlayerCount}
+          maxPC={c.maxPlayerCount}
+          minPT={c.minPlayTime}
+          maxPT={c.maxPlayTime}
+          owner={c.owner}
+          plays={c.plays}
+          designer={c.designer}
+          key={`game-${i}`}
+          />
+    ))
+
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+            Board Games!
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <form></form>
+        <ul>
+          {gamesList}
+        </ul>
       </div>
+      
     );
   }
 }
