@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-import GameSummary from './components/GameSummary'
+import GameSummary from './components/GameSummary';
+import Header from './components/Header';
 
 class App extends Component {
 
@@ -41,9 +42,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <header className="App-header">
-            Board Games!
-        </header>
+        <Header />
         <form></form>
         <ul className='games-list'>
           {gamesList}
