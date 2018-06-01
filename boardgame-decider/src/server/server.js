@@ -46,12 +46,24 @@ app.delete('/games:id', (req, res) => {
     res.send(returnGames);
 });
 
-app.patch('/games:id'), (req, res) => {
+app.patch(('/vote:id'), (req, res) => {
     const { id } = req.params;
     const newVote = req.body;
-    games[id][voteArray].push(newVote);
-    res.send(games[id][voteArray])
-}
+    boardGames[id].voteArray.push(newVote);
+    res.send(boardGames[id].voteArray)
+});
+
+app.patch(('/addplay:id'), (req, res) => {
+    const { id } = req.params;
+    boardGames[id].plays += 1;
+    res.send(boardGames[id].voteArray)
+});
+
+app.post(('/games'), (req, res) => {
+    const newGame = req.body;
+    boardGames.push({...newGame, voteArray: [], averageVote: 0});
+    res.send(newGame);
+});
 
 app.listen(3002, () => {
     console.log('Server listening at port localhost:3002');

@@ -8,7 +8,7 @@ class Vote extends Component {
 
         this.state={
             vote: 0,
-            index: this.props.index
+            index: this.props.children
         }
     }
 
@@ -34,11 +34,12 @@ class Vote extends Component {
 
     submitChange(e) {
         e.preventDefault();
-        const gameIndex = this.state.idex;
+
+        const gameIndex = this.state.index;
         const newVote = this.state.vote;
-        console.log(this.state.vote)
-        console.log(this.state.index)
-        axios.patch(`http://localhost3002:${gameIndex}`, newVote)
+        console.log(newVote)
+        // console.log(this.state.index)
+        axios.patch(`http://localhost3002/vote:` + gameIndex, newVote)
             .then(response => console.log(response))
             .catch(err => console.warn(err))
 

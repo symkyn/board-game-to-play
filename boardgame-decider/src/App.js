@@ -4,6 +4,7 @@ import './App.css';
 
 import GameSummary from './components/GameSummary';
 import Header from './components/Header';
+import AddGameForm from './components/AddGameForm';
 
 class App extends Component {
 
@@ -29,16 +30,18 @@ class App extends Component {
     const gamesList = this.state.games.map((c,i) => (
       <GameSummary 
           title={c.title}
-          minPC={c.minPlayerCount}
-          maxPC={c.maxPlayerCount}
-          minPT={c.minPlayTime}
-          maxPT={c.maxPlayTime}
+          minPlayerCount={c.minPlayerCount}
+          maxPlayerCount={c.maxPlayerCount}
+          minPlayTime={c.minPlayTime}
+          maxPlayTime={c.maxPlayTime}
           owner={c.owner}
           plays={c.plays}
           designer={c.designer}
           removeItem={e => {e.stopPropagation(); this.deleteGame(i)}}
           index={i}
           voteArray={c.voteArray}
+          averageVote={c.averageVote}
+          addPlay={e => {e.stopPropagation(); this.addPlay(i)}}
           key={`game-${i}`}
           />
     ))
@@ -64,7 +67,9 @@ class App extends Component {
         {
           (this.state.makeNewGame) &&
           <span className='add-game-span'>
-            
+            <AddGameForm 
+                onSubmit={(e,ng) => this.handleSubmit(e,ng)}
+              />
           </span>
 
         }
@@ -77,7 +82,7 @@ class App extends Component {
     axios.delete(`http://localhost:3002/games` + i)
       .then(results => (
         this.setState({
-          games: results.data
+          games: this.state.games.filter((c, index) => index !== 1)
         })
       ))
       .catch(err => console.log(err));
@@ -87,6 +92,37 @@ class App extends Component {
     this.setState({
       makeNewGame: true
     })
+  }
+
+  handleSubmit(e, newGame) {
+    e.preventDefault();
+
+    return axios.post('http://localhost:3002/games', newGame)
+      .then(response => {
+        const games = [
+          ...this.state.games,
+          response.data,
+        ];
+
+        this.setState({
+          games,
+          makeNewGame: false
+        });
+      })
+      .catch(err => {
+      console.warn('Cannot add new game');
+      console.info(err);
+    })
+     
+    this.setState({
+      makeNewGame: false
+    })
+  }
+
+  addPlay(i) {
+    axios.patch(`http://localhost:3002/addplay:` + i)
+      .then(results => this.games[i].plays += 1)
+      .catch(err => console.log(err))
   }
 
 }
