@@ -30,6 +30,11 @@ const boardGames = [
     }
 ]
 
+for(i=0; i<boardGames.length; i++){
+    const length = boardGames[i].voteArray.length;
+    boardGames[i].averageVote = boardGames[i].voteArray.reduce((number,cv) => cv + number) / length;
+}
+
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -46,17 +51,19 @@ app.delete('/games:id', (req, res) => {
     res.send(returnGames);
 });
 
-app.patch(('/vote:id'), (req, res) => {
+app.patch(('/games/vote/:id'), (req, res) => {
+    console.log('hi');
     const { id } = req.params;
     const newVote = req.body;
     boardGames[id].voteArray.push(newVote);
-    res.send(boardGames[id].voteArray)
+    res.send(boardGames);
 });
 
-app.patch(('/addplay:id'), (req, res) => {
+app.patch(('/games/addPlay/:id'), (req, res) => {
     const { id } = req.params;
-    boardGames[id].plays += 1;
-    res.send(boardGames[id].voteArray)
+    const addOne = req.body;
+    boardGames[id].plays++;
+    res.status(200).send(boardGames);
 });
 
 app.post(('/games'), (req, res) => {

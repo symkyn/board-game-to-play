@@ -42,6 +42,7 @@ class App extends Component {
           voteArray={c.voteArray}
           averageVote={c.averageVote}
           addPlay={e => {e.stopPropagation(); this.addPlay(i)}}
+          submitChange={e => { this.submitChange(i)} }
           key={`game-${i}`}
           />
     ))
@@ -82,7 +83,7 @@ class App extends Component {
     axios.delete(`http://localhost:3002/games` + i)
       .then(results => (
         this.setState({
-          games: this.state.games.filter((c, index) => index !== 1)
+          games: this.state.games.filter((c, index) => index !== i)
         })
       ))
       .catch(err => console.log(err));
@@ -120,10 +121,29 @@ class App extends Component {
   }
 
   addPlay(i) {
-    axios.patch(`http://localhost:3002/addplay:` + i)
-      .then(results => this.games[i].plays += 1)
+    const addOne = 1;
+    axios.patch('http://localhost:3002/games/addPlay/' + i, addOne)
+      .then(results => this.setState({
+          games: results.data
+      }))
       .catch(err => console.log(err))
   }
+
+  submitChange(i, newVote) {
+
+    const gameIndex = i;
+    console.log(newVote)
+    // console.log(this.state.index)
+    axios.patch(`http://localhost3002/games/vote/` + gameIndex, newVote)
+        .then(response => this.setState({
+          games: response.data
+        }))
+        .catch(err => console.warn(err))
+
+    this.setState({
+        vote: 0
+    })
+}
 
 }
 

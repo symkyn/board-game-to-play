@@ -7,20 +7,20 @@ class AverageVote extends Component {
         super(props)
 
         this.state={
-            index: this.props.index,
+            index: this.props.children.index,
             averageVotes:0, 
-            games: []
+            games: this.props.children.voteArray
         }
     }
 
-    componentWillMount(){
-        axios.get('http://localhost:3002/games')
-            .then(response => {
-                this.setState({
-                    games: [ ...response.data,],
-                })
-            })
-                .catch(err => console.warn(err));
+    // componentWillMount(){
+    //     axios.get('http://localhost:3002/games')
+    //         .then(response => {
+    //             this.setState({
+    //                 games: [ ...response.data,],
+    //             })
+    //         })
+    //             .catch(err => console.warn(err));
             
 
         // const gameVotesArray = this.state.games[this.state.index].voteArray;
@@ -28,7 +28,7 @@ class AverageVote extends Component {
         // this.setState({
         //     averageVotes: this.findAverageVote(gameVotesArray)
         // })
-    }
+    
     
     render(){
         // this.setState({
@@ -36,7 +36,7 @@ class AverageVote extends Component {
         // })
         console.log(this.state.index)
         return(
-            <li>{this.state.games[this.state.index]}</li>
+            <li>{this.state.voteArray}</li>
         )
         
     }
