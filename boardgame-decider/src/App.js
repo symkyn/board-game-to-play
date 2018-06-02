@@ -15,7 +15,8 @@ class App extends Component {
       games: [],
       makeNewGame: false,
       filter: false,
-      filteredGameList: []
+      filteredGameList: [],
+      playerCount: 1
     }
   this.highestVoteTotal = this.highestVoteTotal.bind(this);
   }
@@ -102,6 +103,19 @@ class App extends Component {
             onClick={() => this.clearFilter()}>
           Clear Filter
           </Button>
+          <br />
+        
+        {/* <form 
+            className='player-count'
+            onSubmit={() => this.playerCount()}
+          >
+          <input 
+              type='string' 
+              value={this.state.playerCount}
+              onChange={e => this.playerCountChange(e)}
+            />
+                <button>What's Available</button>
+        </form> */}
 
         </div>
     
@@ -143,8 +157,24 @@ class App extends Component {
     );
   }
 
+  // playerCountChange(e) {
+  //   this.setState({
+  //     playerCount: e.target.value
+  //   })
+  // }
+
+  // playerCount(){
+  //   const playerCountFilteredList = this.state.games.filter(
+  //     value => (value.plays >= value.minPlayerCount && value.play <= value.maxPlayerCount)
+  //   )
+  //   this.setState({
+  //     filteredGameList: playerCountFilteredList,
+  //     filter: true
+  //   })
+  // }
+
   filterGameList() {
-    const newFilteredList = this.state.games.filter(value => value.plays === 0)
+    const newFilteredList = this.state.games.filter(value => value.plays == 0)
     this.setState({
       filteredGameList: newFilteredList,
       filter: true
@@ -166,16 +196,18 @@ class App extends Component {
   }
 
   highestVoteTotal() {
-    let highestVote =this.state.games[0]
+    let highestVote = [this.state.games[0]]
     const numGames = this.state.games.length
     const gamesArray = this.state.games
     for(var i = 1; i < numGames; i++) {
-      if(highestVote.averageVote < gamesArray[i].averageVote){
-        highestVote=gamesArray[i]
+      if(highestVote[0].averageVote === gamesArray[i].averageVote){
+        highestVote.push(gamesArray[i])
+      } else if(highestVote[0].averageVote < gamesArray[i].averageVote){
+        highestVote=[gamesArray[i]]
       }
     }
     this.setState({
-      filteredGameList: [highestVote],
+      filteredGameList: highestVote,
       filter: true
     })
   }

@@ -13,7 +13,7 @@ const boardGames = [
         owner: 'symkyn',
         plays: 20,
         designer: 'Martin Walace',
-        voteArray: [10,3],
+        voteArray: [10,6],
         averageVote: 0
     },
     {
@@ -38,6 +38,18 @@ const boardGames = [
         plays: 0,
         designer: 'Michael Keller',
         voteArray: [10,8],
+        averageVote: 0
+    },
+    {
+        title: 'Arkwright',
+        minPlayerCount: 2,
+        maxPlayerCount: 4,
+        minPlayTime: 120,
+        maxPlayTime: 240,
+        owner: 'symkyn',
+        plays: 1,
+        designer: 'Stefan Risthaus',
+        voteArray: [9],
         averageVote: 0
     }
 ]
