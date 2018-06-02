@@ -5,6 +5,7 @@ import './App.css';
 import GameSummary from './components/GameSummary';
 import Header from './components/Header';
 import AddGameForm from './components/AddGameForm';
+import Button from './components/Button'
 
 class App extends Component {
   constructor(){
@@ -16,8 +17,7 @@ class App extends Component {
       filter: false,
       filteredGameList: []
     }
-
-    this.showZeroPlays = this.showZeroPlays.bind(this)
+  this.highestVoteTotal = this.highestVoteTotal.bind(this);
   }
   componentWillMount() {
     axios.get('http://localhost:3002/games')
@@ -77,12 +77,33 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        
-        <button
+        <div className='filters'>
+
+        <Button
             className='filter-button'
-            >
+            onClick={() => this.filterGameList()}>
           Games With Zero Plays
-        </button>
+        </Button>
+
+        <Button
+            className='filter-button'
+            onClick={() => this.fiveOrFewer()}>
+          Five or Fewer Plays
+        </Button>
+
+        <Button
+            className='filter-button'
+            onClick={() => this.highestVoteTotal()}>
+          Highest Vote Total
+          </Button>
+
+        <Button
+            className='filter-button'
+            onClick={() => this.clearFilter()}>
+          Clear Filter
+          </Button>
+
+        </div>
     
         {
           (!this.state.filter) &&
@@ -123,11 +144,41 @@ class App extends Component {
   }
 
   filterGameList() {
-    if(!this.state.filter) {
-      this.setState({
-        filteredGameList: this.state.games
-  })
-  }}
+    const newFilteredList = this.state.games.filter(value => value.plays === 0)
+    this.setState({
+      filteredGameList: newFilteredList,
+      filter: true
+    })
+  }
+
+  fiveOrFewer() {
+    const newFilteredList = this.state.games.filter(value => value.plays <= 5)
+    this.setState({
+      filteredGameList: newFilteredList,
+      filter: true
+    })
+  }
+
+  clearFilter() {
+    this.setState({
+      filter: false
+    })
+  }
+
+  highestVoteTotal() {
+    let highestVote =this.state.games[0]
+    const numGames = this.state.games.length
+    const gamesArray = this.state.games
+    for(var i = 1; i < numGames; i++) {
+      if(highestVote.averageVote < gamesArray[i].averageVote){
+        highestVote=gamesArray[i]
+      }
+    }
+    this.setState({
+      filteredGameList: [highestVote],
+      filter: true
+    })
+  }
 
   deleteGame(i) {
     axios.delete(`http://localhost:3002/games` + i)
@@ -195,15 +246,15 @@ class App extends Component {
   //   })
   // }
 
-  showZeroPlays(event) {
-    event.stopPropagation();
+  // showZeroPlays(event) {
+  //   event.stopPropagation();
     
-    const newFilteredGamesList = this.state.games.filter(e => e.plays === 0);
-    this.setState({
-      filteredGameList: newFilteredGamesList,
-      filter: true
-    });
-  }
+  //   const newFilteredGamesList = this.state.games.filter(e => e.plays === 0);
+  //   this.setState({
+  //     filteredGameList: newFilteredGamesList,
+  //     filter: true
+  //   });
+  // }
 
 }
 

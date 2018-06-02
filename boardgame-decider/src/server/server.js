@@ -27,6 +27,18 @@ const boardGames = [
         designer: 'Alexander Huemer',
         voteArray: [10,7],
         averageVote: 0
+    },
+    {
+        title: 'Agra',
+        minPlayerCount: 2,
+        maxPlayerCount: 4,
+        minPlayTime: 90,
+        maxPlayTime: 120,
+        owner: 'symkyn',
+        plays: 0,
+        designer: 'Michael Keller',
+        voteArray: [10,8],
+        averageVote: 0
     }
 ]
 
