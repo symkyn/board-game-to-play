@@ -1,7 +1,7 @@
 import React from 'react';  
 import './GameSummary.css';
 import Vote from './Vote';
-import AverageVote from './AverageVote'
+// import AverageVote from './AverageVote'
 
 const GameSummary = ({title, minPlayerCount, maxPlayerCount, minPlayTime, 
                         maxPlayTime, owner, plays, designer, removeItem, index, 
@@ -12,12 +12,12 @@ const GameSummary = ({title, minPlayerCount, maxPlayerCount, minPlayTime,
             <li className='game-info'>Player Count: {minPlayerCount}-{maxPlayerCount}</li>
             <li className='game-info'>Play Time: {minPlayTime}-{maxPlayTime}</li>
             <li className='game-info'>Designer: {designer}</li>
-            <li className='game-info'>Votes: {voteArray}</li>
             <li className='game-info'>Average Votes: {averageVote}</li>
-            {/* <li className='game-info'>Index: {index}</li> */}
-            {/* <AverageVote> {index} {voteArray} </AverageVote> */}
         </ul>
-        <Vote>{submitChange}{index}</Vote>
+        <Vote
+                submitChange={submitChange}
+                index={index}
+            />
         <br />
         <div className='bottom-div'>
         <button 

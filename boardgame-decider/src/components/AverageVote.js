@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './AverageVote.css';
-import axios from 'axios';
+
 
 class AverageVote extends Component {
     constructor(props){

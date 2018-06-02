@@ -7,12 +7,18 @@ import Header from './components/Header';
 import AddGameForm from './components/AddGameForm';
 
 class App extends Component {
+  constructor(){
+    super()
 
-  state={
-    games: [],
-    makeNewGame: false
+    this.state={
+      games: [],
+      makeNewGame: false,
+      filter: false,
+      filteredGameList: []
+    }
+
+    this.showZeroPlays = this.showZeroPlays.bind(this)
   }
-
   componentWillMount() {
     axios.get('http://localhost:3002/games')
       .then(response => {
@@ -27,6 +33,7 @@ class App extends Component {
     }
 
   render() {
+    
     const gamesList = this.state.games.map((c,i) => (
       <GameSummary 
           title={c.title}
@@ -47,13 +54,49 @@ class App extends Component {
           />
     ))
 
+    const filteredGameList = this.state.filteredGameList.map((c,i) => (
+      <GameSummary 
+          title={c.title}
+          minPlayerCount={c.minPlayerCount}
+          maxPlayerCount={c.maxPlayerCount}
+          minPlayTime={c.minPlayTime}
+          maxPlayTime={c.maxPlayTime}
+          owner={c.owner}
+          plays={c.plays}
+          designer={c.designer}
+          removeItem={e => {e.stopPropagation(); this.deleteGame(i)}}
+          index={i}
+          voteArray={c.voteArray}
+          averageVote={c.averageVote}
+          addPlay={e => {e.stopPropagation(); this.addPlay(i)}}
+          submitChange={e => {e.stopPropagation(); this.submitChange(i)} }
+          key={`game-${i}`}
+          />
+    ))
+
     return (
       <div className="App">
         <Header />
-        <form></form>
+        
+        <button
+            className='filter-button'
+            >
+          Games With Zero Plays
+        </button>
+    
+        {
+          (!this.state.filter) &&
         <ul className='games-list'>
           {gamesList}
         </ul>
+        }
+
+        {
+          (this.state.filter) &&
+          <ul className='filtered-game-list'>
+            {filteredGameList}
+          </ul>
+        }
 
         {
           (!this.state.makeNewGame) &&
@@ -78,6 +121,13 @@ class App extends Component {
       
     );
   }
+
+  filterGameList() {
+    if(!this.state.filter) {
+      this.setState({
+        filteredGameList: this.state.games
+  })
+  }}
 
   deleteGame(i) {
     axios.delete(`http://localhost:3002/games` + i)
@@ -121,29 +171,39 @@ class App extends Component {
   }
 
   addPlay(i) {
-    const addOne = 1;
-    axios.patch('http://localhost:3002/games/addPlay/' + i, addOne)
+    const addValue = 1;
+    axios.patch('http://localhost:3002/games/addPlay/' + i, addValue)
       .then(results => this.setState({
           games: results.data
       }))
       .catch(err => console.log(err))
   }
 
-  submitChange(i, newVote) {
+  // submitChange(i, newVote) {
 
-    const gameIndex = i;
-    console.log(newVote)
-    // console.log(this.state.index)
-    axios.patch(`http://localhost3002/games/vote/` + gameIndex, newVote)
-        .then(response => this.setState({
-          games: response.data
-        }))
-        .catch(err => console.warn(err))
+  //   const gameIndex = i;
+  //   console.log(newVote)
+  //   // console.log(this.state.index)
+  //   axios.patch(`http://localhost3002/games/vote/` + gameIndex, newVote)
+  //       .then(response => this.setState({
+  //         games: response.data
+  //       }))
+  //       .catch(err => console.warn(err))
 
+  //   this.setState({
+  //       vote: 0
+  //   })
+  // }
+
+  showZeroPlays(event) {
+    event.stopPropagation();
+    
+    const newFilteredGamesList = this.state.games.filter(e => e.plays === 0);
     this.setState({
-        vote: 0
-    })
-}
+      filteredGameList: newFilteredGamesList,
+      filter: true
+    });
+  }
 
 }
 

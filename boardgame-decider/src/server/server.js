@@ -13,7 +13,7 @@ const boardGames = [
         owner: 'symkyn',
         plays: 20,
         designer: 'Martin Walace',
-        voteArray: [2,3],
+        voteArray: [10,3],
         averageVote: 0
     },
     {
@@ -25,7 +25,7 @@ const boardGames = [
         owner: 'symkyn',
         plays: 0,
         designer: 'Alexander Huemer',
-        voteArray: [1,7],
+        voteArray: [10,7],
         averageVote: 0
     }
 ]
@@ -52,16 +52,19 @@ app.delete('/games:id', (req, res) => {
 });
 
 app.patch(('/games/vote/:id'), (req, res) => {
-    console.log('hi');
     const { id } = req.params;
-    const newVote = req.body;
+    const newVote = Number(req.body.vote);
     boardGames[id].voteArray.push(newVote);
     res.send(boardGames);
+    for(i=0; i<boardGames.length; i++){
+        const length = boardGames[i].voteArray.length;
+        boardGames[i].averageVote = boardGames[i].voteArray.reduce((number,cv) => cv + number) / length;
+    }
 });
 
 app.patch(('/games/addPlay/:id'), (req, res) => {
     const { id } = req.params;
-    const addOne = req.body;
+    const addValue = req.body;
     boardGames[id].plays++;
     res.status(200).send(boardGames);
 });

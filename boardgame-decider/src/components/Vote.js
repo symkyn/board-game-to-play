@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import './Vote.css';
 import axios from 'axios';
+import './Vote.css';
+
 
 class Vote extends Component {
     constructor(props){
         super(props)
 
         this.state={
-            vote: 0,
-            submitChange: this.props.children.submitChange,
-            index: this.props.children.index
+            vote: 1,
+            index: this.props.index
         }
     }
 
@@ -34,21 +34,23 @@ class Vote extends Component {
             vote: e.target.value
         })
     }
+
+
+submitChange(index, newVote) {
+    const vote = {
+        vote: newVote
+    };
+    const gameIndex = index;
+    console.log(newVote)
+    console.log(gameIndex)
+      axios.patch('http://localhost:3002/games/vote/' + gameIndex, vote)
+          .then(response => console.log(response)
+        )
+          .catch(err => console.warn(err))
+    
+      this.setState({
+          vote: 1
+      })
+    }
 }
-//     submitChange(e) {
-
-//         const gameIndex = this.state.index;
-//         const newVote = this.state.vote;
-//         console.log(newVote)
-//         // console.log(this.state.index)
-//         axios.patch(`http://localhost3002/games/vote/` + gameIndex, newVote)
-//             .then(response => console.log(response))
-//             .catch(err => console.warn(err))
-
-//         this.setState({
-//             vote: 0
-//         })
-//     }
-// }
-
 export default Vote;
