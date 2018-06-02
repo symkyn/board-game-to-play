@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -58,6 +59,14 @@ for(i=0; i<boardGames.length; i++){
     const length = boardGames[i].voteArray.length;
     boardGames[i].averageVote = boardGames[i].voteArray.reduce((number,cv) => cv + number) / length;
 }
+
+let boardGamesFromBGG = []
+
+axios.get('https://www.boardgamegeek.com/xmlapi2?user=symkyn')
+    .then(response => console.log(response))
+    .catch(err => console.warn(err))
+    
+console.log(boardGamesFromBGG)
 
 app.use(cors());
 app.use(bodyParser.json());
